@@ -1,0 +1,47 @@
+#!/bin/bash
+# Matt Layher, 8/21/13
+# Simple shell script which adds a proxy entry and creates logging for a new apache virtualhost
+
+# environment
+TMPFILE="/tmp/mkproxy"
+HTTPDCONF="/etc/apache2/conf.d/httpd.conf"
+HTTPROOT="/var/www/"
+HTTPLOG="/var/log/apache2/"
+HTTPUSER="www-data"
+
+# check for argument
+if [ -n "$1" ] ; then
+	if [ -n "$2" ] ; then
+		# create log directory
+		sudo mkdir $HTTPLOG$1
+
+		# generate proxy configuration
+		echo "# mkproxy $1" > $TMPFILE
+		echo "<VirtualHost *:80>" >> $TMPFILE
+		echo -e "\tServerName $1" >> $TMPFILE
+		echo -e "\tCustomLog $HTTPLOG$1/access.log \"common\"" >> $TMPFILE
+		echo -e "\tErrorLog $HTTPLOG$1/error.log" >> $TMPFILE
+		echo -e "" >> $TMPFILE
+		echo -e "\tProxyRequests Off" >> $TMPFILE
+		echo -e "\tProxyPreserveHost On" >> $TMPFILE
+		echo -e "\tProxyPass / http://$2/$3" >> $TMPFILE
+		echo -e "\tProxyPassReverse / http://$2/$3" >> $TMPFILE
+		echo -e "</VirtualHost>\n" >> $TMPFILE
+
+		# apply vhost configuration
+		sudo cat $TMPFILE >> $HTTPDCONF
+
+		# remove tmpfile
+		rm $TMPFILE
+
+		# restart apache
+		sudo /etc/init.d/apache2 restart
+
+		# done!
+		echo "$0: created proxy $1 -> http://$2/$3, done."
+	else
+		echo "usage: $0 [host] [ip:port] {path}"
+	fi
+else
+	echo "usage: $0 [host] [ip:port] {path}"
+fi
