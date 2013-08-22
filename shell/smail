@@ -1,0 +1,32 @@
+#!/bin/sh
+# Matt Layher, 5/21/13
+# Shell script which simplifies usage of mail
+
+# Valid recipient
+if [ -n "$1" ] ; then
+	# Valid subject
+	if [ -n "$2" ] ; then
+		# Valid message
+		if [ -n "$3" ] ; then
+			# Attachment?
+			if [ -n "$4" ] ; then
+				echo "$3" | mail -a "$4" -s "$2" "$1"
+			else
+				# No attachment
+				echo "$3" | mail -s "$2" "$1"
+			fi
+
+			# Done!
+			echo "$0: sent email $2 to $1!"
+		else
+			echo "$0: no message specified"
+			echo "usage: $0 [recipient] [subject] [message] {attachment}"
+		fi
+	else
+		echo "$0: no subject specified"
+		echo "usage: $0 [recipient] [subject] [message] {attachment}"
+	fi
+else
+	echo "$0: no recipient specified"
+	echo "usage: $0 [recipient] [subject] [message] {attachment}"
+fi
