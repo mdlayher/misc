@@ -1,7 +1,6 @@
 <?php
 // PHP Lazy Sequences, Matt Layher, 9/6/13
 // Generates a sequence on the fly by evaluating an input function over a given range
-// NOTE: Should be properly implemented with PHP5.5 generators to be truly lazy
 
 class LazySequence
 {
@@ -17,9 +16,6 @@ class LazySequence
 	// Evaluate the function over a range, optionally with step interval
 	public function evaluate($start, $end, $step = 1)
 	{
-		// Output sequence, since we don't have generators
-		$sequence = array();
-
 		// Store function locally so we can evaluate it
 		$f = $this->f;
 
@@ -27,12 +23,8 @@ class LazySequence
 		for ($i = $start; $i < $end; $i += $step)
 		{
 			// Add evaluted function at this point to the sequence
-			// In the future, yield a value here
-			$sequence[] = $f($i);
+			yield $f($i);
 		}
-
-		// Output sequence
-		return $sequence;
 	}
 }
 
