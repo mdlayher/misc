@@ -41,3 +41,40 @@ foreach ($square->evaluate(1, 10) as $s)
 	printf("%d * %d = %d\n", $i, $i, $s);
 	$i++;
 }
+
+// Generate a lazy fibonacci sequence
+$fibonacci = new LazySequence(function($x)
+{
+	// By definition
+	if ($x == 0)
+	{
+		return 0;
+	}
+	else if ($x == 1 || $x == 2)
+	{
+		return 1;
+	}
+
+	// Initial values
+	$a = 1;
+	$b = 1;
+
+	// Output of sequence
+	$fib = 0;
+
+	for ($i = 0; $i <= $x - 2; $i++)
+	{
+		$fib = $a + $b;
+		$b = $a;
+		$a = $fib;
+	}
+
+	return $fib;
+});
+
+// Evaluate lazy fibonacci sequence
+foreach ($fibonacci->evaluate(1, 10) as $f)
+{
+	echo "$f, ";
+}
+echo "...";
