@@ -6,9 +6,9 @@ package main
 
 // Reference libraries using import
 import (
-	"fmt" // Text formatting
-	"net/http"	// Basic web server
-	"strconv"	// String conversion
+	"fmt"      // Text formatting
+	"net/http" // Basic web server
+	"strconv"  // String conversion
 )
 
 // Main is the entry point
@@ -85,11 +85,11 @@ func learnFlowControl() {
 	// Switch, cases don't fall through
 	x := 1
 	switch x {
-		case 0:
-		case 1:
-			fmt.Println("ONE")
-		case 2:
-			// not used
+	case 0:
+	case 1:
+		fmt.Println("ONE")
+	case 2:
+		// not used
 	}
 
 	// For: only loop statement in Go
@@ -200,15 +200,15 @@ func learnConcurrency() {
 	// It will select a case at random out of cases that are ready to communicate
 	// Select statement will run one time through only!
 	select {
-		// i can be assigned to value from int channel
-		case i := <-c:
-			fmt.Printf("it's a %T", i)
-		// Value received, but can be discarded
-		case <-cs:
-			fmt.Println("Got a string!")
-		// Empty channel, not ready for communication
-		case <-cc:
-			fmt.Println("This won't happen!")
+	// i can be assigned to value from int channel
+	case i := <-c:
+		fmt.Printf("it's a %T", i)
+	// Value received, but can be discarded
+	case <-cs:
+		fmt.Println("Got a string!")
+	// Empty channel, not ready for communication
+	case <-cc:
+		fmt.Println("This won't happen!")
 	}
 }
 
