@@ -1,3 +1,5 @@
+use std::f64;
+
 // main defines the program entry point
 fn main() {
 	// println!() is a macro which functions similar to C printf()
@@ -33,6 +35,12 @@ fn main() {
 		// match is exhaustive, so a wildcard case is required at compile-time
 		_     => { println!("something else") }
 	}
+
+	// Declare a tuple
+	let tup = (0.0f64, 1.0f64);
+	// Compute angle using tuple
+	let ang = angle(tup);
+	println!("\nangle({}) = {}\n", tup, ang);
 }
 
 // signum returns the sign of an integer
@@ -40,4 +48,19 @@ fn signum(x: int) -> int {
 	if x < 0 { -1 }
 	else if x > 0 { 1 }
 	else { 0 }
+}
+
+// Using pattern matching for "destructuring": matching to bind names to the contents of data types
+// A tuple is declared as follows
+fn angle(vector: (f64, f64)) -> f64 {
+	let pi = f64::consts::PI;
+	match vector {
+		// A variable name matches any value, AND binds the value to the arm's action
+		// Matches any tuple whose first element is zero, AND binds y to the second element
+		(0.0, y) if y < 0.0 => 1.5 * pi,
+		// Matches any tuple whose first element is zero, but does not bind anything to the second element
+		(0.0, _) => 0.5 * pi,
+		// Matches any tuple, and binds both elements to variables
+		(x, y) => (y / x).atan()
+	}
 }
