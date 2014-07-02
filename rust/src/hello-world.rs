@@ -51,6 +51,25 @@ fn main() {
 	// Destructure tuple using let
 	let (x, y) = tup;
 	println!("\n(x:{}, y:{}) == tup:{}\n", x, y, tup);
+
+	// while loop
+	let mut amount = 8i;
+	while amount > 0 {
+		amount -= 1;
+		println!("cake: {}", amount);
+	}
+
+	// infinite loop
+	loop {
+		// ... not so much
+		println!("\nbreak!\n");
+		break;
+	}
+
+	// for loop
+	for i in range(0u, 5) {
+		println!("count: {}", i);
+	}
 }
 
 // signum returns the sign of an integer
