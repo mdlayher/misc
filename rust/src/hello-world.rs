@@ -1,3 +1,5 @@
+extern crate debug;
+
 use std::f64;
 
 // main defines the program entry point
@@ -70,6 +72,28 @@ fn main() {
 	for i in range(0u, 5) {
 		println!("count: {}", i);
 	}
+
+	// Structs also follow immutability rules
+	let origin = Point{x: 1.0, y: 1.0};
+	let mut x_pos = Point{x: 1.0, y: 1.0};
+	x_pos.x += 2.0;
+
+	// Print syntax is made possible by "extern crate debug;" at top of file
+	println!("\norigin: {:?}, x_pos: {:?}\n", origin, x_pos);
+
+	// match statements can also be used to destructure structs
+	match x_pos {
+		// Match if x == 3.0
+		Point{x: 3.0, y: yy} => println!("y: {}\n", yy),
+		// Wildcard
+		Point{x: xx, y: yy} => println!("x: {}, y: {}\n", xx, yy),
+	}
+
+	// There is a shorthand match syntax for structs as well
+	match x_pos {
+		// Shorthand
+		Point{x, ..} => println!("x: {}\n", x),
+	}
 }
 
 // signum returns the sign of an integer
@@ -92,4 +116,10 @@ fn angle(vector: (f64, f64)) -> f64 {
 		// Matches any tuple, and binds both elements to variables
 		(x, y) => (y / x).atan()
 	}
+}
+
+// Point is a struct containing two f64 coordinates
+struct Point {
+	x: f64,
+	y: f64
 }
