@@ -41,6 +41,16 @@ fn main() {
 	// Compute angle using tuple
 	let ang = angle(tup);
 	println!("\nangle({}) = {}\n", tup, ang);
+
+	// Bind subpattern to variable
+	match 18i {
+		age @ 0..20 => println!("{} years old", age),
+		_ => println!("some other age")
+	}
+
+	// Destructure tuple using let
+	let (x, y) = tup;
+	println!("\n(x:{}, y:{}) == tup:{}\n", x, y, tup);
 }
 
 // signum returns the sign of an integer
